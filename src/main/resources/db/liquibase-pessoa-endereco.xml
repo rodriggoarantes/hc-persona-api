@@ -1,0 +1,41 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="rodrigo.arantes" id="pessoa-endereco-tabela">
+        <createTable tableName="pessoa_endereco">
+            <column name="pessoa_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="pessoa_endereco_pkey"/>
+            </column>
+            <column name="endereco_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="pessoa_endereco_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="rodrigo.arantes" id="pessoa-endereco-pes-fk">
+        <preConditions onFail="MARK_RAN">
+            <tableExists schemaName="public" tableName="pessoa"/>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="pessoa_id"
+                                 baseTableName="pessoa_endereco"
+                                 constraintName="pessoa_endereco_pes_fkey"
+                                 onDelete="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pessoa"/>
+    </changeSet>
+
+    <changeSet author="rodrigo.arantes" id="pessoa-endereco-end-fk">
+        <preConditions onFail="MARK_RAN">
+            <tableExists schemaName="public" tableName="endereco"/>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="endereco_id"
+                                 baseTableName="pessoa_endereco"
+                                 constraintName="pessoa_endereco_end_fkey"
+                                 onDelete="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="endereco"/>
+    </changeSet>
+
+</databaseChangeLog>
