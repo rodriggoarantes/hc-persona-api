@@ -1,4 +1,7 @@
 package com.ras.persona.domain.pais;
 
-public class PaisRepository {
+import com.ras.persona.domain.usuarios.Usuario;
+import org.springframework.data.repository.CrudRepository;
+
+public interface PaisRepository extends CrudRepository<Pais, Long> {
 }
