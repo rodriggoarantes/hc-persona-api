@@ -27,10 +27,6 @@ public class Usuario {
 
     private String foto = "";
 
-    @OneToOne(mappedBy = "usuario")
-    @JsonBackReference
-    private Pessoa pessoa;
-
     @Transient
     private String password = "";
 
@@ -64,14 +60,6 @@ public class Usuario {
 
     public void setFoto(String foto) {
         this.foto = foto;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 
     public String getPassword() {
