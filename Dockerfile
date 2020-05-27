@@ -1,6 +1,6 @@
 ARG VERSION=1.0.0-SNAPSHOT
-ARG BUILD_IMAGE=maven:3.6.3-jdk-11-openj9
-ARG RUNTIME_IMAGE=adoptopenjdk:11-jre-openj9
+ARG BUILD_IMAGE=maven: 3.6-openjdk-8
+ARG RUNTIME_IMAGE=openjdk:8-jre-alpine
 
 #####################################################
 ###  Stage: Compile                               ###
@@ -40,14 +40,6 @@ RUN mvn -e -B package -P${MODULE} -DskipTests
 
 FROM ${RUNTIME_IMAGE}
 ARG MODULE
-COPY --from=package app/product-${MODULE}/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","-Dspring.profiles.active=env","-jar","/app.jar"]
+COPY --from=package app/target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar", "--spring.profiles.active=prod"]
 
-ARG VERSION
-ARG JAR_NAME=target/persona-api-${VERSION}.jar
-
-COPY $JAR_NAME app.jar
-
-ENTRYPOINT ["java", "-Xdebug", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005","-jar","/app.jar", "--spring.profiles.active=prod"]
-
-EXPOSE 8181 15005
