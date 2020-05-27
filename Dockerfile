@@ -1,5 +1,5 @@
 ARG VERSION=1.0.0-SNAPSHOT
-ARG BUILD_IMAGE=maven: 3.6-openjdk-8
+ARG BUILD_IMAGE=maven:3.6-openjdk-8
 ARG RUNTIME_IMAGE=openjdk:8-jre-alpine
 
 #####################################################
@@ -7,22 +7,20 @@ ARG RUNTIME_IMAGE=openjdk:8-jre-alpine
 #####################################################
 
 FROM ${BUILD_IMAGE} as build
-ARG MODULE
 WORKDIR /app
 COPY pom.xml .
 COPY . .
-RUN mvn -e -B compile -P${MODULE} -DskipTests
+RUN mvn -e -B compile -DskipTests
 
 #####################################################
 ###  Stage(Optional): Run Unit Tests              ###
 #####################################################
 
 FROM build as test
-ARG MODULE
 ARG SKIPTESTS=true
 WORKDIR /app
 RUN if [ "$SKIPTESTS" = "false" ] ; \
-    then mvn -e -B test -P${MODULE}; \
+    then mvn -e -B test ; \
     fi
 
 #####################################################
@@ -30,16 +28,14 @@ RUN if [ "$SKIPTESTS" = "false" ] ; \
 #####################################################
 
 FROM build as package
-ARG MODULE
 WORKDIR /app
-RUN mvn -e -B package -P${MODULE} -DskipTests
+RUN mvn -e -B clean package -DskipTests
 
 #####################################################
 ### Stage: Run Image                              ###
 #####################################################
 
 FROM ${RUNTIME_IMAGE}
-ARG MODULE
 COPY --from=package app/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar", "--spring.profiles.active=prod"]
 
