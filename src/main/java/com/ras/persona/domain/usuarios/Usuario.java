@@ -1,13 +1,9 @@
 package com.ras.persona.domain.usuarios;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.ras.persona.domain.pessoas.Pessoa;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -26,10 +22,6 @@ public class Usuario {
     private String email = "";
 
     private String foto = "";
-
-    @OneToOne(mappedBy = "usuario")
-    @JsonBackReference
-    private Pessoa pessoa;
 
     @Transient
     private String password = "";
@@ -66,19 +58,53 @@ public class Usuario {
         this.foto = foto;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public static class Builder {
+        private final Usuario user;
+
+        private Builder() {
+            this.user = new Usuario();
+        }
+
+        public static Builder instance() {
+            return new Builder();
+        }
+
+        public Builder id(Long param) {
+            user.setId(param);
+            return this;
+        }
+
+        public Builder login(String param) {
+            user.setLogin(param);
+            return this;
+        }
+
+        public Builder password(String param) {
+            user.setPassword(param);
+            return this;
+        }
+
+        public Builder email(String param) {
+            user.setEmail(param);
+            return this;
+        }
+
+        public Builder foto(String param) {
+            user.setFoto(param);
+            return this;
+        }
+
+        public Usuario build() {
+            return this.user;
+        }
     }
 }

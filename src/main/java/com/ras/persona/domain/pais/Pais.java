@@ -1,5 +1,4 @@
-package com.ras.persona.domain.pessoas;
-
+package com.ras.persona.domain.pais;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,13 +6,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pessoa")
-public class Pessoa {
+@Table(name = "pais")
+public class Pais {
     @Id
     @GeneratedValue
     private Long id;
+    private String codigo;
     private String nome;
-    private String email;
+    private String sigla;
+
+    public Pais() {}
+
+    public Pais(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -21,6 +27,14 @@ public class Pessoa {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {
@@ -31,11 +45,11 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
+    public String getSigla() {
+        return sigla;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 }
