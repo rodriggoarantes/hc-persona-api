@@ -1,14 +1,41 @@
 ARG VERSION=1.0.0-SNAPSHOT
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-MAINTAINER Rodrigo
-LABEL maintainer="rodriggoarantes@gmail.com"
+ARG BUILD_IMAGE=maven:3.6-openjdk-8
+ARG RUNTIME_IMAGE=openjdk:8-jre-alpine
 
-ARG VERSION
-ARG JAR_NAME=target/kotlin-study-${VERSION}.jar
+#####################################################
+###  Stage: Compile                               ###
+#####################################################
 
-COPY $JAR_NAME app.jar
+FROM ${BUILD_IMAGE} as build
+WORKDIR /app
+COPY pom.xml .
+COPY . .
+RUN mvn -e -B compile -DskipTests
 
-ENTRYPOINT ["java", "-Xdebug", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005","-jar","/app.jar", "--spring.profiles.active=prod"]
+#####################################################
+###  Stage(Optional): Run Unit Tests              ###
+#####################################################
 
-EXPOSE 8181 15005
+FROM build as test
+ARG SKIPTESTS=true
+WORKDIR /app
+RUN if [ "$SKIPTESTS" = "false" ] ; \
+    then mvn -e -B test ; \
+    fi
+
+#####################################################
+###  Stage: Package                               ###
+#####################################################
+
+FROM build as package
+WORKDIR /app
+RUN mvn -e -B clean package -DskipTests
+
+#####################################################
+### Stage: Run Image                              ###
+#####################################################
+
+FROM ${RUNTIME_IMAGE}
+COPY --from=package app/target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar", "--spring.profiles.active=prod"]
+

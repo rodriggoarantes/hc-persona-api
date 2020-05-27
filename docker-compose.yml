@@ -20,7 +20,7 @@ services:
   api:
     container_name: persona-api
     build: .
-    image: "rodriggoarantes/persona-api:1.0.0-SNAPSHOT"
+    image: "rodriggoarantes/persona-api-java:latest"
     ports:
       - "8181:8181"
       - "15005:5005"
