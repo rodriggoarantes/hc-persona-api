@@ -23,7 +23,8 @@ public class Estado {
     @JoinColumn(name = "pais_id", referencedColumnName = "id", nullable = false)
     private Pais pais;
 
-    public Estado() {}
+    public Estado() {
+    }
 
     public Estado(Long id) {
         this.id = id;
