@@ -15,8 +15,7 @@ springBoot {
 }
 
 dependencies {
-    implementation(kotlin("reflect"))
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(project(":persona-domain"))
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude("org.springframework.boot", "spring-boot-starter-tomcat")
