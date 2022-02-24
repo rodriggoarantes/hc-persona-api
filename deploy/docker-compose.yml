@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  db:
+    image: postgres:11-alpine
+    container_name: persona-postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "rodrigo010"
+      POSTGRES_DB: "personas"
+    ports:
+      - "15432:5432"
+    expose:
+      - 5432
+    networks:
+      - backend
+
+  api:
+    container_name: persona-api
+    build: .
+    image: "rodriggoarantes/persona-api-java:latest"
+    ports:
+      - "8181:8181"
+      - "15005:5005"
+    depends_on:
+      - db
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  db-data:
