@@ -10,6 +10,10 @@ application {
     mainClass.set("com.ras.persona.ApiApplicationKt")
 }
 
+springBoot {
+    buildInfo()
+}
+
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib-jdk8"))

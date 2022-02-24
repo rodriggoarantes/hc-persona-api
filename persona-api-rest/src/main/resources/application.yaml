@@ -1,0 +1,12 @@
+server.port: ${PORT:8080}
+
+## SPRING
+spring.profiles.active: dev
+
+## Spring Data
+logging.level.org.hibernate:
+  SQL: DEBUG
+  type:
+    descriptor:
+      sql:
+        BasicBinder: TRACE
