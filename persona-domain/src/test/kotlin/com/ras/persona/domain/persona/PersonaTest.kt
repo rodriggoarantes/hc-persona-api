@@ -1,7 +1,9 @@
 package com.ras.persona.domain.persona
 
 import com.ras.persona.commons.Email
+import com.ras.persona.domain.data.Bio
 import com.ras.persona.domain.data.Contact
+import com.ras.persona.domain.figure.FigureDataBio
 import com.ras.persona.domain.figure.FigureDataContact
 import com.ras.persona.domain.figure.FigureId
 import com.ras.persona.domain.figure.FigureType
@@ -43,13 +45,21 @@ class PersonaTest {
         val persona = Persona(PersonaId("1"), "R", Email("teste"))
 
         val contact = Contact("9999-9999")
-        val figure = FigureDataContact(FigureId("2"), contact)
+        val figureContact = FigureDataContact(FigureId("1"), contact)
 
-        persona.createFigure(figure)
+        val bio = Bio(weight = 99.9, heightCm = 173, shoeSize = 41)
+        val figureBio = FigureDataBio(FigureId("2"), bio)
 
-        val result = persona.findFigure(FigureType.CONTACT) as FigureDataContact
-        assertNotNull(result)
-        assertEquals(result.data, contact)
+        persona.createFigure(figureContact)
+        persona.createFigure(figureBio)
+
+        val resultContact = persona.findFigure(FigureType.CONTACT) as FigureDataContact
+        assertNotNull(resultContact)
+        assertEquals(resultContact.data, contact)
+
+        val resultBio = persona.findFigure(FigureType.BIO) as FigureDataBio
+        assertNotNull(resultBio)
+        assertEquals(resultBio.data, bio)
     }
 
     @Test
