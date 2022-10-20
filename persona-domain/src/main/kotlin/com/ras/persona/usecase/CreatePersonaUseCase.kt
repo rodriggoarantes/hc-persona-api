@@ -1,7 +1,7 @@
 package com.ras.persona.usecase
 
-import com.ras.persona.usecase.boundary.`in`.PersonaInput
+import com.ras.persona.usecase.boundary.input.PersonaIn
 
 interface CreatePersonaUseCase {
-    fun execute(input: PersonaInput)
+    fun execute(input: PersonaIn)
 }
