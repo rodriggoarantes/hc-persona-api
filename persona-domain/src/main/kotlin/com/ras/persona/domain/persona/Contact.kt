@@ -1,4 +1,4 @@
-package com.ras.persona.domain.data
+package com.ras.persona.domain.persona
 
 data class Contact(val mainPhone: String) {
     init {

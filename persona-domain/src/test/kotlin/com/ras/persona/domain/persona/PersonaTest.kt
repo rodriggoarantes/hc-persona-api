@@ -1,12 +1,8 @@
 package com.ras.persona.domain.persona
 
 import com.ras.persona.commons.Email
-import com.ras.persona.domain.data.Bio
-import com.ras.persona.domain.data.Contact
-import com.ras.persona.domain.figure.FigureDataBio
-import com.ras.persona.domain.figure.FigureDataContact
-import com.ras.persona.domain.figure.FigureId
-import com.ras.persona.domain.figure.FigureType
+import com.ras.persona.commons.Height
+import com.ras.persona.commons.Weight
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -28,11 +24,17 @@ class PersonaTest {
 
     @Test
     fun `build persona`() {
+        val value = "teste@teste.com"
+        val email = Email(value)
+
         val personaId = PersonaId("123")
-        val persona = Persona(personaId, "R", Email("teste@teste.com"))
+
+        val persona = Persona(personaId, name="R", email)
 
         assertNotNull(persona)
         assertEquals(persona.id, personaId)
+        assertEquals(persona.name, "R")
+        assertEquals(persona.email, email)
     }
 
     @Test
@@ -41,36 +43,28 @@ class PersonaTest {
     }
 
     @Test
-    fun `create figure for persona`() {
+    fun `create contact for persona`() {
         val persona = Persona(PersonaId("1"), "R", Email("teste"))
 
         val contact = Contact("9999-9999")
-        val figureContact = FigureDataContact(FigureId("1"), contact)
+        persona.saveContact(contact)
 
-        val bio = Bio(weight = 99.9, heightCm = 173, shoeSize = 41)
-        val figureBio = FigureDataBio(FigureId("2"), bio)
-
-        persona.createFigure(figureContact)
-        persona.createFigure(figureBio)
-
-        val resultContact = persona.findFigure(FigureType.CONTACT) as FigureDataContact
-        assertNotNull(resultContact)
-        assertEquals(resultContact.data, contact)
-
-        val resultBio = persona.findFigure(FigureType.BIO) as FigureDataBio
-        assertNotNull(resultBio)
-        assertEquals(resultBio.data, bio)
+        assertNotNull(persona.contact)
+        assertEquals(persona.contact, contact)
     }
 
     @Test
-    fun `do not create an existing figure for a persona`() {
+    fun `create bio for persona`() {
         val persona = Persona(PersonaId("1"), "R", Email("teste"))
 
-        val contact = Contact("9999-9999")
-        val figure = FigureDataContact(FigureId("2"), contact)
+        val bio = Bio(Weight(99.9), Height(1.73, "mt"))
+        persona.saveBio(bio)
 
-        persona.createFigure(figure)
+        assertNotNull(persona.bio)
+        assertEquals(persona.bio, bio)
 
-        assertThrows<IllegalArgumentException> { persona.createFigure(figure) }
+        val personaBio: Bio = persona.bio ?: throw NullPointerException()
+        assertEquals(personaBio.weight.kg, 99.9)
+        assertEquals(personaBio.height.cm, 173)
     }
 }
