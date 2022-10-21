@@ -1,26 +1,24 @@
 package com.ras.persona.domain.persona
 
 import com.ras.persona.commons.Email
+import com.ras.persona.domain.persona.data.Data
+import com.ras.persona.domain.persona.data.DataType
 
 class Persona(
     val id: PersonaId,
     val name: String,
     val email: Email
 ) {
-    var contact: Contact? = null
-        private set
-    var bio: Bio? = null
-        private set
+    private val _data: MutableMap<DataType, Data> = mutableMapOf()
+    val data: Map<DataType, Data>
+        get() = _data.toMap()
 
     init {
         require(name.isNotBlank()) { "Name cannot be blank" }
     }
 
-    fun saveContact(contact: Contact) {
-        this.contact = contact
+    fun addData(dataValue: Data) {
+        this._data[dataValue.type] = dataValue
     }
 
-    fun saveBio(bio: Bio) {
-        this.bio = bio
-    }
 }

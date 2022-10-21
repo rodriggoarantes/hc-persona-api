@@ -13,6 +13,5 @@ data class PersonaOut(
     val id: String,
     val name: String,
     val email: String,
-    val contact: ContactOut,
-    val bio: BioOut
+    val data: Map<String, Any>
 )

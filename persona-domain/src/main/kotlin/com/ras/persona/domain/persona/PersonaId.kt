@@ -10,4 +10,8 @@ data class PersonaId(val value: String) {
     companion object {
         fun generate() : PersonaId = PersonaId(UUID.randomUUID().toString())
     }
+
+    override fun toString(): String {
+        return value
+    }
 }
