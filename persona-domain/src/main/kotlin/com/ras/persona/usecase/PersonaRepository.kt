@@ -1,6 +1,6 @@
 package com.ras.persona.usecase
 
-import com.ras.persona.usecase.boundary.output.PersonaDataOut
+import com.ras.persona.usecase.boundary.data.output.PersonaDataOut
 
 interface PersonaRepository {
 

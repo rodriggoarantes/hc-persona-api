@@ -4,10 +4,10 @@ import com.ras.persona.domain.persona.Persona
 import com.ras.persona.domain.persona.data.Bio
 import com.ras.persona.domain.persona.data.Contact
 import com.ras.persona.domain.persona.data.Data
-import com.ras.persona.usecase.boundary.commons.BioData
-import com.ras.persona.usecase.boundary.commons.ContactData
-import com.ras.persona.usecase.boundary.input.PersonaDataIn
-import com.ras.persona.usecase.boundary.output.PersonaDataOut
+import com.ras.persona.usecase.boundary.data.commons.BioData
+import com.ras.persona.usecase.boundary.data.commons.ContactData
+import com.ras.persona.usecase.boundary.data.input.PersonaDataIn
+import com.ras.persona.usecase.boundary.data.output.PersonaDataOut
 
 fun Persona.toOut(): PersonaDataOut {
     val dataMap: Map<String, Any> = mutableMapOf()

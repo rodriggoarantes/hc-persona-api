@@ -6,8 +6,8 @@ import com.ras.persona.domain.persona.PersonaId
 import com.ras.persona.domain.persona.exception.EmailAlreadyExistsException
 import com.ras.persona.usecase.boundary.converter.toOut
 import com.ras.persona.usecase.boundary.converter.toPersonaIn
-import com.ras.persona.usecase.boundary.input.CreatePersonaDataIn
-import com.ras.persona.usecase.boundary.input.PersonaDataIn
+import com.ras.persona.usecase.boundary.data.input.CreatePersonaDataIn
+import com.ras.persona.usecase.boundary.data.input.PersonaDataIn
 
 class CreatePersonaUseCaseImpl(private val personaRepository: PersonaRepository): CreatePersonaUseCase {
 

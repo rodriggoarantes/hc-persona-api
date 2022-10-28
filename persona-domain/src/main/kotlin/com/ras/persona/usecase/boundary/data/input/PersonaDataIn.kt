@@ -1,4 +1,4 @@
-package com.ras.persona.usecase.boundary.input
+package com.ras.persona.usecase.boundary.data.input
 
 data class PersonaDataIn(
     val id: String,

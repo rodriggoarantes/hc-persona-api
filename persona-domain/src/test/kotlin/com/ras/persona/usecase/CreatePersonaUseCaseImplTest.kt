@@ -1,7 +1,9 @@
 package com.ras.persona.usecase
 
-import com.ras.persona.usecase.boundary.input.CreatePersonaDataIn
+import com.ras.persona.domain.persona.exception.EmailAlreadyExistsException
+import com.ras.persona.usecase.boundary.data.input.CreatePersonaDataIn
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
@@ -27,5 +29,18 @@ internal class CreatePersonaUseCaseImplTest {
 
         verify(personaRepository).isExistingEmail(any())
         verify(personaRepository).save(any())
+    }
+
+    @Test
+    fun `should throw exception EmailAlreadyExists on create persona`() {
+        whenever(personaRepository.isExistingEmail(any())).thenReturn(true)
+
+        val cmd = CreatePersonaDataIn("Persona Teste 001",  "teste@teste.com")
+
+        val exception = assertThrows<EmailAlreadyExistsException> {
+            useCase.execute(cmd)
+        }
+
+        exception.message?.let { assertTrue(it.contains(cmd.email)) }
     }
 }
