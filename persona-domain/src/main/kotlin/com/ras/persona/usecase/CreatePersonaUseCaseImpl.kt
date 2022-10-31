@@ -1,6 +1,6 @@
 package com.ras.persona.usecase
 
-import com.ras.persona.commons.Email
+import com.ras.persona.domain.commons.Email
 import com.ras.persona.domain.persona.Persona
 import com.ras.persona.domain.persona.PersonaId
 import com.ras.persona.domain.persona.exception.EmailAlreadyExistsException

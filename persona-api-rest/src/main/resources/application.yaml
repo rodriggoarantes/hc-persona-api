@@ -1,9 +1,18 @@
+## Server
 server.port: ${PORT:8080}
 
-## SPRING
-spring.profiles.active: dev
+## Spring
+spring:
+  profiles.active: dev
 
-## Spring Data
+  ### Spring Data
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: persona
+
+## Log
 logging.level.org.hibernate:
   SQL: DEBUG
   type:

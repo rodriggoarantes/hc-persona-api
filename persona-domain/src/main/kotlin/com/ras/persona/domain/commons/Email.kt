@@ -1,4 +1,4 @@
-package com.ras.persona.commons
+package com.ras.persona.domain.commons
 
 data class Email(val value: String) {
     init {

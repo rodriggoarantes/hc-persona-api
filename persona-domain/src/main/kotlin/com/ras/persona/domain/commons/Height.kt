@@ -1,4 +1,4 @@
-package com.ras.persona.commons
+package com.ras.persona.domain.commons
 
 data class Height(private val value: Double, private val system: String = "cm") {
     val cm: Int = when (system) {

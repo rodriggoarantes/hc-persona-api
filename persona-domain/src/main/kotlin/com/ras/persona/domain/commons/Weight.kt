@@ -1,4 +1,4 @@
-package com.ras.persona.commons
+package com.ras.persona.domain.commons
 
 data class Weight(private val value: Double, private val systemWeight: String = "kg") {
     init {

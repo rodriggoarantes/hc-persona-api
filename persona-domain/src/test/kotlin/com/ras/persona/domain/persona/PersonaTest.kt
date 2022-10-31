@@ -1,8 +1,8 @@
 package com.ras.persona.domain.persona
 
-import com.ras.persona.commons.Email
-import com.ras.persona.commons.Height
-import com.ras.persona.commons.Weight
+import com.ras.persona.domain.commons.Email
+import com.ras.persona.domain.commons.Height
+import com.ras.persona.domain.commons.Weight
 import com.ras.persona.domain.persona.data.Bio
 import com.ras.persona.domain.persona.data.Contact
 import org.junit.jupiter.api.Assertions.*

@@ -1,6 +1,6 @@
 package com.ras.persona.domain.persona
 
-import com.ras.persona.commons.Email
+import com.ras.persona.domain.commons.Email
 import com.ras.persona.domain.persona.data.Data
 import com.ras.persona.domain.persona.data.DataType
 

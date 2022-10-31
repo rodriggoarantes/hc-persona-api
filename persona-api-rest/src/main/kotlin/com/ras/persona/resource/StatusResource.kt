@@ -1,6 +1,7 @@
 package com.ras.persona.resource
 
 import com.ras.persona.commons.Loggable
+import com.ras.persona.usecase.boundary.data.output.PersonaDataOut
 import org.springframework.boot.info.BuildProperties
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
