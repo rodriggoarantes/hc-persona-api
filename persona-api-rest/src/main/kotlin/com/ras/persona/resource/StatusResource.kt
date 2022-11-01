@@ -25,7 +25,8 @@ class StatusResource(
         logger.info("StatusResource v={}", v)
         return mapOf(
             Pair("version", v),
-            Pair("clientId", contextStore.clientId)
+            Pair("clientId", contextStore.clientId),
+            Pair("userId", contextStore.userId)
         )
     }
 }

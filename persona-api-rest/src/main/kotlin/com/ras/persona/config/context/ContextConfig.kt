@@ -5,6 +5,7 @@ import org.springframework.aop.target.ThreadLocalTargetSource
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
 import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Scope
 import javax.servlet.Filter
@@ -20,22 +21,24 @@ class ContextConfig {
     }
 
     @Bean
-    fun contextFilter(): Filter {
-        return ContextFilter(contextStore())
+    @DependsOn(value = ["contextStore"])
+    fun contextFilter(contextStore: ContextStore): Filter {
+        return ContextFilter(contextStore)
     }
 
     @Bean
-    fun contextFilterRegistration(): FilterRegistrationBean<Filter> {
+    @DependsOn(value = ["contextFilter"])
+    fun contextFilterRegistration(contextFilter: Filter): FilterRegistrationBean<Filter> {
         val filterRegistration = FilterRegistrationBean<Filter>()
-        filterRegistration.filter = contextFilter()
+        filterRegistration.filter = contextFilter
         filterRegistration.urlPatterns = listOf("/*")
         filterRegistration.setName("Context Store Filter")
         filterRegistration.order = 1
         return filterRegistration
     }
 
-    @Bean(destroyMethod = "destroy")
-    fun threadLocalTenantStore(): ThreadLocalTargetSource {
+    @Bean(name=["threadLocalTargetSource"], destroyMethod = "destroy")
+    fun threadLocalTargetSource(): ThreadLocalTargetSource {
         val localTargetSource = ThreadLocalTargetSource()
         localTargetSource.targetBeanName = "contextStore"
         return localTargetSource
