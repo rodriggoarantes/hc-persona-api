@@ -20,11 +20,7 @@ data class PersonaEntity (
     @Indexed(unique = true)
     val email: String,
 
-    val data: Map<String, Any>,
-
-    @CreatedDate
-    val createdAt: LocalDateTime,
-
-    @LastModifiedDate
-    val modifyAt: LocalDateTime
-)
+    val data: Map<String, Any>
+) {
+    private var meta: MetaDataEntity? = null
+}

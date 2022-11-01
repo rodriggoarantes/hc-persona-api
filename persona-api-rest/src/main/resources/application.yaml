@@ -11,6 +11,9 @@ spring:
       host: localhost
       port: 27017
       database: persona
+      username: root
+      password: mongomongo
+      authentication-database: admin
 
 ## Log
 logging.level.org.hibernate:
