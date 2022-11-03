@@ -23,3 +23,13 @@ tasks.findByName("bootJar")?.apply {
 tasks.findByName("jar")?.apply {
     enabled = true
 }
+
+tasks {
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = true
+    }
+}

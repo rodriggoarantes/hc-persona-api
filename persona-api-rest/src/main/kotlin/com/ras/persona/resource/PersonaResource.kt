@@ -1,17 +1,15 @@
 package com.ras.persona.resource
 
 import com.ras.persona.commons.Loggable
-import com.ras.persona.usecase.PersonaRepository
+import com.ras.persona.usecase.CreatePersonaUseCase
+import com.ras.persona.usecase.boundary.data.input.CreatePersonaDataIn
 import com.ras.persona.usecase.boundary.data.input.PersonaDataIn
-import com.ras.persona.usecase.boundary.data.output.PersonaDataOut
-import org.springframework.boot.info.BuildProperties
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.UUID
 
 @RestController
 @RequestMapping(
@@ -19,21 +17,15 @@ import java.util.UUID
     produces = [MediaType.APPLICATION_JSON_VALUE],
 )
 class PersonaResource(
-    private val personaRepository: PersonaRepository
+    private val createPersonaUseCase: CreatePersonaUseCase
 ) : Loggable {
 
-    @PostMapping("/input")
-    fun inpuptTest(): ResponseEntity<PersonaDataOut> {
-        logger.info("PersonaResource")
+    @PostMapping
+    fun create(@RequestBody dataIn: CreatePersonaDataIn): ResponseEntity<PersonaDataIn> {
+        logger.info("PersonaResource :: create")
 
-        val id = UUID.randomUUID().toString()
+        val personaDataIn = createPersonaUseCase.execute(dataIn)
 
-        val persona = PersonaDataOut(
-            id, "nome", "email@email.com", mapOf()
-        )
-
-        personaRepository.save(persona)
-
-        return ResponseEntity.ok(persona)
+        return ResponseEntity.ok(personaDataIn)
     }
 }

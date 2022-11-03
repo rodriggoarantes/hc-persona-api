@@ -16,7 +16,7 @@ springBoot {
 
 dependencies {
     implementation(project(":persona-domain"))
-    implementation(project(":persona-database"))
+    runtimeOnly(project(":persona-database"))
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude("org.springframework.boot", "spring-boot-starter-tomcat")
@@ -28,4 +28,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+}
+
+tasks {
+    getByName<Zip>("distZip").enabled = false
+    getByName<Tar>("distTar").enabled = false
 }
