@@ -37,7 +37,7 @@ class PersonaResource(
         return ResponseEntity.ok(personaDataIn)
     }
 
-    @PostMapping("/{dataType}")
+    @PostMapping("/data/{dataType}")
     fun createDataByType(
         @PathVariable dataType: DataType,
         @RequestBody dataIn: CreateDataOfPersonaDataIn<JsonNode>
