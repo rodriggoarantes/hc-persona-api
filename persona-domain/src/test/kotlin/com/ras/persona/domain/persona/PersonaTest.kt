@@ -12,40 +12,32 @@ import org.junit.jupiter.api.assertThrows
 class PersonaTest {
 
     @Test
-    fun `build email`() {
-        val value = "teste@teste.com"
-        val email = Email(value)
-        assertEquals(email.value, value)
-    }
-
-    @Test
-    fun `dont build email with empty value`() {
-        assertThrows<IllegalArgumentException> { Email("") }
-    }
-
-    @Test
     fun `build persona`() {
         val value = "teste@teste.com"
         val email = Email(value)
 
+        val userId = UserId("123")
         val personaId = PersonaId("123")
 
-        val persona = Persona(personaId, name="R", email)
+        val persona = Persona(personaId, userId, name="R", email)
 
         assertNotNull(persona)
         assertEquals(persona.id, personaId)
         assertEquals(persona.name, "R")
         assertEquals(persona.email, email)
+        assertEquals(persona.userId, userId)
     }
 
     @Test
     fun `dont build persona with empty name`() {
-        assertThrows<IllegalArgumentException> { Persona(PersonaId("123"), "", Email("teste@teste.com")) }
+        assertThrows<IllegalArgumentException> {
+        Persona(PersonaId("123"), UserId("123"),"", Email("teste@teste.com"))
+        }
     }
 
     @Test
     fun `create data type contact for persona`() {
-        val persona = Persona(PersonaId("1"), "R", Email("teste"))
+        val persona = Persona(PersonaId("1"), UserId("123"), "R", Email("teste"))
 
         val phone = "9999-9999"
         val contact = Contact(phone)
@@ -61,7 +53,7 @@ class PersonaTest {
 
     @Test
     fun `create data type bio for persona`() {
-        val persona = Persona(PersonaId("1"), "R", Email("teste"))
+        val persona = Persona(PersonaId("1"), UserId("123"), "R", Email("teste"))
 
         val bio = Bio(Weight(99.9), Height(1.73, "mt"))
         persona.addData(bio)

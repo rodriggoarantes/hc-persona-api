@@ -6,6 +6,7 @@ import com.ras.persona.domain.persona.data.DataType
 
 class Persona(
     val id: PersonaId,
+    val userId: UserId,
     val name: String,
     val email: Email
 ) {

@@ -19,7 +19,7 @@ internal class CreatePersonaUseCaseImplTest {
     fun `create persona`() {
         whenever(personaRepository.isExistingEmail(any())).thenReturn(false)
 
-        val cmd = CreatePersonaDataIn("Persona Teste 001",  "teste@teste.com")
+        val cmd = CreatePersonaDataIn("456789", "Persona Teste 001",  "teste@teste.com")
 
         val personaIn = useCase.execute(cmd)
 
@@ -35,7 +35,7 @@ internal class CreatePersonaUseCaseImplTest {
     fun `should throw exception EmailAlreadyExists on create persona`() {
         whenever(personaRepository.isExistingEmail(any())).thenReturn(true)
 
-        val cmd = CreatePersonaDataIn("Persona Teste 001",  "teste@teste.com")
+        val cmd = CreatePersonaDataIn("123456", "Persona Teste 001",  "teste@teste.com")
 
         val exception = assertThrows<EmailAlreadyExistsException> {
             useCase.execute(cmd)

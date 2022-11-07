@@ -62,4 +62,3 @@ subprojects {
         implementation("ch.qos.logback:logback-core:1.2.3")
     }
 }
-
