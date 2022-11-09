@@ -4,7 +4,8 @@ import java.util.UUID
 
 data class PersonaId(val value: String) {
     init {
-        require(value.isNotBlank()) { "value cannot be blank" }
+        require(value.isNotBlank()) { "Id de persona não pode ser vazio" }
+        require(runCatching { UUID.fromString(value) }.isSuccess) { "O Identificador deve ser um UUID valido" }
     }
 
     companion object {

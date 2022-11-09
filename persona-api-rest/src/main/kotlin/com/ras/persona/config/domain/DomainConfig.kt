@@ -16,4 +16,9 @@ class DomainConfig {
     fun createDataOfPersonaUseCase(personaRepository: PersonaRepository): CreateDataOfPersonaUseCase {
         return CreateDataOfPersonaUseCaseImpl(personaRepository)
     }
+
+    @Bean("findPersonaByIdUseCase")
+    fun findPersonaByIdUseCase(personaRepository: PersonaRepository): FindPersonaByIdUseCase {
+        return FindPersonaByIdUseCaseImpl(personaRepository)
+    }
 }

@@ -6,6 +6,7 @@ import com.ras.persona.commons.Loggable
 import com.ras.persona.domain.persona.data.DataType
 import com.ras.persona.usecase.CreateDataOfPersonaUseCase
 import com.ras.persona.usecase.CreatePersonaUseCase
+import com.ras.persona.usecase.FindPersonaByIdUseCase
 import com.ras.persona.usecase.boundary.data.commons.BioData
 import com.ras.persona.usecase.boundary.data.commons.ContactData
 import com.ras.persona.usecase.boundary.data.commons.DataOfPersonaDataIn
@@ -25,7 +26,8 @@ import java.net.URI
 class PersonaResource(
     private val objectMapper: ObjectMapper,
     private val createPersonaUseCase: CreatePersonaUseCase,
-    private val createDataOfPersonaUseCase: CreateDataOfPersonaUseCase
+    private val createDataOfPersonaUseCase: CreateDataOfPersonaUseCase,
+    private val getPersonaByIdUseCase: FindPersonaByIdUseCase
 ) : Loggable {
 
     @PostMapping
@@ -58,5 +60,14 @@ class PersonaResource(
         createDataOfPersonaUseCase.execute(input)
 
         return ResponseEntity.created(URI.create("/personas/${dataIn.personaId}")).build()
+    }
+
+    @GetMapping("/{id}")
+    fun getById(@PathVariable id: String): ResponseEntity<PersonaDataIn> {
+        logger.info("PersonaResource :: getById")
+
+        val personaDataIn = getPersonaByIdUseCase.execute(id)
+
+        return ResponseEntity.ok(personaDataIn)
     }
 }
