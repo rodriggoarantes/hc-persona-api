@@ -10,7 +10,7 @@ class ContextFilter(private val contextStore: ContextStore): Filter {
 
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         val httpServletRequest: HttpServletRequest = request as HttpServletRequest
-        val userId: String = httpServletRequest.getHeader("UID") ?: "UNKNOWN"
+        val userId: String = httpServletRequest.getHeader("UID") ?: "ADMIN"
 
         try {
             this.contextStore.tenantId = "TenantIdContext"

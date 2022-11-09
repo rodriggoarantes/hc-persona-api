@@ -16,7 +16,19 @@ class PersonaRepositoryImpl(private val repository: PersonaMongoRepository): Per
     }
 
     override fun save(persona: PersonaDataOut) {
-        repository.save(persona.toEntity())
+        val entity = persona.toEntity()
+
+        repository.findById(entity.id).let {
+            it.ifPresent { db ->
+                entity.version = db.version
+                entity.createdAt = db.createdAt
+                entity.modifyAt = db.modifyAt
+                entity.createdByUser = db.createdByUser
+                entity.modifiedByUser = db.modifiedByUser
+            }
+        }
+
+        repository.save(entity)
     }
 
     override fun isExistingEmail(email: String): Boolean {

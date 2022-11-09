@@ -14,15 +14,8 @@ import java.util.Optional
 class DbConfig {
 
     @Bean
-    fun myAuditorProvider(): AuditorAware<String> {
-        return AuditorAwareImpl()
+    fun myAuditorProvider(auditionUserProvider: AuditionUserProvider): AuditorAware<String> {
+        return AuditorAwareImpl(auditionUserProvider)
     }
 
-}
-
-class AuditorAwareImpl : AuditorAware<String> {
-    override fun getCurrentAuditor(): Optional<String> {
-        // TODO implementar auditoria por ThreadLocal
-        return Optional.ofNullable("ADMIN")
-    }
 }

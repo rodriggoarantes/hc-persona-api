@@ -25,6 +25,4 @@ data class PersonaEntity (
     val email: String,
 
     val data: Map<String, DataOfPersonaDataIn>
-) {
-    private var meta: MetaDataEntity? = null
-}
+): MetaDataEntity()

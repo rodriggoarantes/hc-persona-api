@@ -4,19 +4,23 @@ import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.annotation.Version
 import java.time.LocalDateTime
 
 
-class MetaDataEntity {
+abstract class MetaDataEntity(
+    @Version
+    var version: Long? = null,
+
     @CreatedDate
-    private val createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime? = null,
 
     @LastModifiedDate
-    private val modifyAt: LocalDateTime? = null
+    var modifyAt: LocalDateTime? = null,
 
     @CreatedBy
-    private val createdByUser: String? = null
+    var createdByUser: String? = null,
 
     @LastModifiedBy
-    private val modifiedByUser: String? = null
-}
+    var modifiedByUser: String? = null
+)
