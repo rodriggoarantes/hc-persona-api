@@ -10,7 +10,7 @@ import com.ras.persona.usecase.boundary.data.commons.BioData
 import com.ras.persona.usecase.boundary.data.commons.ContactData
 import com.ras.persona.usecase.boundary.data.commons.DataOfPersonaDataIn
 
-fun dataPersonaToDomain(type: DataType, value: DataOfPersonaDataIn): Data =
+fun personaDataInToDomain(type: DataType, value: DataOfPersonaDataIn): Data =
     when (type) {
         DataType.CONTACT -> (value as ContactData).toContact()
         DataType.BIO -> (value as BioData).toBio()

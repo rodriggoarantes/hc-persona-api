@@ -36,7 +36,7 @@ fun PersonaDataOut.toPersona(): Persona {
     val persona = Persona(PersonaId(id), UserId(userId), name, Email(email))
 
     val listData: List<Data> = data.mapNotNull {
-        dataPersonaToDomain(DataType.valueOf(it.key), it.value)
+        personaDataInToDomain(DataType.valueOf(it.key), it.value)
     }
 
     listData.forEach { persona.addData(it) }

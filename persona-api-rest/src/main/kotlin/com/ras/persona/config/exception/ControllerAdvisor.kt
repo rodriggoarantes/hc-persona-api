@@ -2,6 +2,7 @@ package com.ras.persona.config.exception
 
 import com.ras.persona.domain.exception.AbstractBusinessException
 import com.ras.persona.domain.exception.ResourceNotFoundException
+import com.ras.persona.domain.exception.UnauthorizedException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -34,6 +35,14 @@ class ControllerAdvisor : ResponseEntityExceptionHandler() {
         val bodyOfResponse = ErrorResponse(
             HttpStatus.INTERNAL_SERVER_ERROR.value(),
             ex.message ?: "Falha ao realizar operação desejada, verifique as exigencias de negocio")
+        return buildResponse(bodyOfResponse)
+    }
+
+    @ExceptionHandler(value = [UnauthorizedException::class])
+    protected fun unauthorizedError(ex: UnauthorizedException, request: WebRequest?): ResponseEntity<ErrorResponse> {
+        val bodyOfResponse = ErrorResponse(
+            HttpStatus.UNAUTHORIZED.value(),
+            ex.message ?: "Usuario nao possui permissao necessaria")
         return buildResponse(bodyOfResponse)
     }
 

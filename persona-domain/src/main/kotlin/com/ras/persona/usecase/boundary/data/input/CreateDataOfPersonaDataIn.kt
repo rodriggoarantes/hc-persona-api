@@ -4,6 +4,7 @@ import com.ras.persona.domain.persona.data.DataType
 
 data class CreateDataOfPersonaDataIn<T>(
     val personaId: String,
+    val userId: String,
     val dataType: DataType,
     val data: T
 )

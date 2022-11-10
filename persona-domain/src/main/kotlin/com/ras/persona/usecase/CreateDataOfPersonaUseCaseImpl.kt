@@ -1,6 +1,7 @@
 package com.ras.persona.usecase
 
-import com.ras.persona.usecase.boundary.converter.dataPersonaToDomain
+import com.ras.persona.domain.exception.UnauthorizedException
+import com.ras.persona.usecase.boundary.converter.personaDataInToDomain
 import com.ras.persona.usecase.boundary.converter.toOut
 import com.ras.persona.usecase.boundary.converter.toPersona
 import com.ras.persona.usecase.boundary.converter.toPersonaIn
@@ -12,9 +13,12 @@ class CreateDataOfPersonaUseCaseImpl(private val personaRepository: PersonaRepos
 
     override fun execute(input: CreateDataOfPersonaDataIn<DataOfPersonaDataIn>): PersonaDataIn {
 
-        val dataPersona = dataPersonaToDomain(input.dataType, input.data)
-
         val persona = personaRepository.findById(input.personaId).toPersona()
+
+        if (input.userId != persona.userId.value)
+            throw UnauthorizedException()
+
+        val dataPersona = personaDataInToDomain(input.dataType, input.data)
         persona.addData(dataPersona)
 
         val personaOut = persona.toOut()

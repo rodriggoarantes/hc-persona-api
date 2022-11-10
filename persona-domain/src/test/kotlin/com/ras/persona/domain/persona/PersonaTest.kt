@@ -17,7 +17,7 @@ class PersonaTest {
         val email = Email(value)
 
         val userId = UserId("123")
-        val personaId = PersonaId("123")
+        val personaId = PersonaId.generate()
 
         val persona = Persona(personaId, userId, name="R", email)
 
@@ -31,13 +31,13 @@ class PersonaTest {
     @Test
     fun `dont build persona with empty name`() {
         assertThrows<IllegalArgumentException> {
-        Persona(PersonaId("123"), UserId("123"),"", Email("teste@teste.com"))
+            Persona(PersonaId.generate(), UserId("123"),"", Email("teste@teste.com"))
         }
     }
 
     @Test
     fun `create data type contact for persona`() {
-        val persona = Persona(PersonaId("1"), UserId("123"), "R", Email("teste"))
+        val persona = Persona(PersonaId.generate(), UserId("123"), "R", Email("teste"))
 
         val phone = "9999-9999"
         val contact = Contact(phone)
@@ -53,7 +53,7 @@ class PersonaTest {
 
     @Test
     fun `create data type bio for persona`() {
-        val persona = Persona(PersonaId("1"), UserId("123"), "R", Email("teste"))
+        val persona = Persona(PersonaId.generate(), UserId("123"), "R", Email("teste"))
 
         val bio = Bio(Weight(99.9), Height(1.73, "mt"))
         persona.addData(bio)

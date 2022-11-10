@@ -1,9 +1,11 @@
 package com.ras.persona.resource
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ras.persona.commons.Loggable
+import com.ras.persona.config.context.ContextStore
+import com.ras.persona.domain.exception.UnauthorizedException
 import com.ras.persona.domain.persona.data.DataType
+import com.ras.persona.resource.dto.CreateDataOfPersonaDto
 import com.ras.persona.usecase.CreateDataOfPersonaUseCase
 import com.ras.persona.usecase.CreatePersonaUseCase
 import com.ras.persona.usecase.FindPersonaByIdUseCase
@@ -24,6 +26,7 @@ import java.net.URI
     produces = [MediaType.APPLICATION_JSON_VALUE],
 )
 class PersonaResource(
+    private val contextStore: ContextStore,
     private val objectMapper: ObjectMapper,
     private val createPersonaUseCase: CreatePersonaUseCase,
     private val createDataOfPersonaUseCase: CreateDataOfPersonaUseCase,
@@ -34,6 +37,9 @@ class PersonaResource(
     fun create(@RequestBody dataIn: CreatePersonaDataIn): ResponseEntity<PersonaDataIn> {
         logger.info("PersonaResource :: create")
 
+        if (contextStore.userId != dataIn.userId)
+            throw UnauthorizedException()
+
         val personaDataIn = createPersonaUseCase.execute(dataIn)
 
         return ResponseEntity.ok(personaDataIn)
@@ -42,12 +48,12 @@ class PersonaResource(
     @PostMapping("/data/{dataType}")
     fun createDataByType(
         @PathVariable dataType: DataType,
-        @RequestBody dataIn: CreateDataOfPersonaDataIn<JsonNode>
+        @RequestBody dto: CreateDataOfPersonaDto
     ): ResponseEntity<Void> {
 
         logger.info("PersonaResource :: createDataByType")
 
-        val dataJsonValue = dataIn.data.toString()
+        val dataJsonValue = dto.data.toString()
 
         val dataOfPersona: DataOfPersonaDataIn = when (dataType) {
             DataType.CONTACT -> objectMapper.readValue(dataJsonValue, ContactData::class.java)
@@ -55,11 +61,11 @@ class PersonaResource(
             else -> { throw IllegalArgumentException("Tipo de dados é desconhecido") }
         }
 
-        val input = CreateDataOfPersonaDataIn(dataIn.personaId, dataType, dataOfPersona)
+        val input = CreateDataOfPersonaDataIn(dto.personaId, contextStore.userId, dataType, dataOfPersona)
 
         createDataOfPersonaUseCase.execute(input)
 
-        return ResponseEntity.created(URI.create("/personas/${dataIn.personaId}")).build()
+        return ResponseEntity.created(URI.create("/personas/${dto.personaId}")).build()
     }
 
     @GetMapping("/{id}")
